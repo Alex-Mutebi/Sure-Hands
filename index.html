@@ -1,255 +1,475 @@
-<!doctype html>
+﻿<!doctype html>
+
 <html lang="en" class="h-full">
+
  <head>
+
   <meta charset="UTF-8">
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Sure Hands Organisation</title>
+
+	  <link rel="icon" href="\image\Logo.png">
+
+  <link rel="shortcut icon" href="\image\Logo.png">
+
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+
   <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <script src="/_sdk/element_sdk.js"></script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&amp;family=DM+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+
   <script>
+
     tailwind.config = {
+
       theme: {
+
         extend: {
+
           colors: {
+
             brand: '#8A014F',
+
             'brand-light': '#FF9ECD',
+
             'brand-dark': '#6B013D'
+
           }
+
         }
+
       }
+
     }
+
   </script>
+
   <style>
+
     html, body { height: 100%; margin: 0; }
+
     body { font-family: 'DM Sans', sans-serif; }
+
     .heading-font { font-family: 'Playfair Display', serif; }
+
     .page { display: none; }
+
     .page.active { display: block; }
-    .nav-link { position: relative; cursor: pointer; }
+
+    .nav-link { position: relative; }
+
     .nav-link::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background: #8A014F; transition: width 0.3s; }
+
     .nav-link:hover::after, .nav-link.active-link::after { width: 100%; }
+
     .service-card { transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
+
     .service-card:hover { transform: translateY(-12px) scale(1.05); box-shadow: 0 30px 80px rgba(138,1,79,0.35), 0 0 50px rgba(255,158,205,0.5), inset 0 0 20px rgba(255,158,205,0.15); border-color: #FF9ECD; }
+
     .fade-in { animation: fadeIn 0.8s ease-out; }
+
     @keyframes fadeIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
     @keyframes slideInUp { 0% { opacity: 0; transform: translateY(80px); } to { opacity: 1; transform: translateY(0); } }
+
     @keyframes slideInDown { from { opacity: 0; transform: translateY(-40px); } to { opacity: 1; transform: translateY(0); } }
+
     @keyframes float { 0%, 100% { transform: translateY(0px) rotate(0deg); } 50% { transform: translateY(-30px) rotate(2deg); } }
+
     @keyframes pulse-glow { 0%, 100% { box-shadow: 0 0 30px rgba(255,158,205,0.5), 0 0 60px rgba(138,1,79,0.3); } 50% { box-shadow: 0 0 60px rgba(255,158,205,1), 0 0 100px rgba(138,1,79,0.5); } }
+
+    @keyframes shimmer { 0% { background-position: -1000px 0; } 100% { background-position: 1000px 0; } }
+
     @keyframes blob-morph { 0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; transform: translateX(0) translateY(0); } 25% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; transform: translateX(20px) translateY(-20px); } 50% { border-radius: 70% 30% 40% 60% / 30% 70% 60% 30%; transform: translateX(-10px) translateY(20px); } 75% { border-radius: 40% 70% 30% 60% / 70% 40% 60% 30%; transform: translateX(-20px) translateY(-10px); } }
+
     @keyframes gradient-shift { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+
+    @keyframes wave { 0%, 100% { transform: skewY(0deg); } 50% { transform: skewY(2deg); } }
+
+    @keyframes glow-pulse { 0%, 100% { filter: drop-shadow(0 0 20px rgba(255,158,205,0.4)); } 50% { filter: drop-shadow(0 0 40px rgba(255,158,205,0.8)); } }
+
+    @keyframes rotate-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
     .hero-gradient { background: linear-gradient(-45deg, #8A014F 0%, #FF6BA6 25%, #FF9ECD 50%, #8A014F 75%, #6B013D 100%); background-size: 400% 400%; animation: gradient-shift 12s ease infinite; }
+
     .pink-accent { background: linear-gradient(135deg, #FF9ECD33, #FF9ECD1a, #8A014F11); }
+
+    .glow-btn { position: relative; transition: all 0.3s ease; }
+
+    .glow-btn::before { content: ''; position: absolute; inset: 0; border-radius: inherit; background: radial-gradient(circle, rgba(255,158,205,0.5) 0%, transparent 70%); opacity: 0; transition: opacity 0.3s ease; }
+
+    .glow-btn:hover::before { opacity: 1; }
+
+    .glow-btn:active { transform: scale(0.98); }
+
     .blur-blob { position: absolute; border-radius: 40%; filter: blur(80px); opacity: 0.7; }
+
     .blob-1 { width: 500px; height: 500px; background: linear-gradient(135deg, #FF9ECD, #8A014F); top: -150px; left: -150px; animation: blob-morph 10s infinite; }
+
     .blob-2 { width: 400px; height: 400px; background: linear-gradient(135deg, #FF6BA6, #FF9ECD); bottom: -100px; right: -100px; animation: blob-morph 12s infinite 1s; }
+
     .blob-3 { width: 300px; height: 300px; background: linear-gradient(135deg, #8A014F, #FF6BA6); top: 50%; left: 50%; animation: blob-morph 14s infinite 2s; }
+
     .floating-icon { animation: float 4s ease-in-out infinite; }
+
     .service-card:nth-child(2) .floating-icon { animation-delay: 0.3s; }
+
     .service-card:nth-child(3) .floating-icon { animation-delay: 0.6s; }
+
     .service-card:nth-child(4) .floating-icon { animation-delay: 0.9s; }
+
     .service-card:nth-child(5) .floating-icon { animation-delay: 1.2s; }
+
     .submit-btn { background: linear-gradient(135deg, #8A014F 0%, #FF6BA6 50%, #FF9ECD 100%); transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); position: relative; overflow: hidden; box-shadow: 0 0 30px rgba(138,1,79,0.3); }
+
     .submit-btn::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); transition: left 0.6s; }
-    .submit-btn:hover { transform: translateY(-4px); box-shadow: 0 25px 60px rgba(138,1,79,0.5), 0 0 40px rgba(255,158,205,0.8); animation: pulse-glow 1.5s ease-in-out infinite; }
+
+    .submit-btn:hover { transform: translateY(-4px); box-shadow: 0 25px 60px rgba(138,1,79,0.5), 0 0 40px rgba(255,158,205,0.8), inset 0 0 20px rgba(255,255,255,0.2); animation: pulse-glow 1.5s ease-in-out infinite; }
+
     .submit-btn:hover::before { left: 100%; }
-    .input-field { transition: all 0.3s ease; border: 2px solid #f0f0f0; }
-    .input-field:focus { border-color: #FF9ECD; box-shadow: 0 0 20px rgba(255,158,205,0.3); outline: none; transform: translateY(-2px); }
+
+    .submit-btn:active { transform: translateY(-1px) scale(0.98); }
+
+    .input-field { transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); border: 2px solid #f0f0f0; position: relative; }
+
+    .input-field:focus { border-color: #FF9ECD; box-shadow: 0 0 30px rgba(255,158,205,0.4), inset 0 0 15px rgba(255,158,205,0.1), 0 0 0 3px rgba(255,158,205,0.1); transform: translateY(-3px) scale(1.01); }
+
+    .input-field:focus::placeholder { color: #FF9ECD; }
+
     .svc-btn { position: relative; overflow: hidden; }
-    .svc-btn.selected { border-color: #8A014F !important; background: linear-gradient(135deg, #FF9ECD15, #8A014F10); box-shadow: 0 0 30px rgba(138,1,79,0.2); }
+
+    .svc-btn::after { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, transparent, rgba(255,158,205,0.2), transparent); transform: translateX(-100%); transition: transform 0.6s; }
+
+    .svc-btn:hover::after { transform: translateX(100%); }
+
+    .svc-btn.selected { border-color: #8A014F !important; background: linear-gradient(135deg, #FF9ECD15, #8A014F10); box-shadow: 0 0 30px rgba(138,1,79,0.2), inset 0 0 20px rgba(255,158,205,0.1); }
+
+    .nav-item { animation: slideInDown 0.5s ease-out; }
+
+    .nav-item:nth-child(2) { animation-delay: 0.1s; }
+
+    .nav-item:nth-child(3) { animation-delay: 0.2s; }
+
+    .nav-item:nth-child(4) { animation-delay: 0.3s; }
+
   </style>
+
+  <style>body { box-sizing: border-box; }</style>
+
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+
  </head>
+
  <body class="h-full bg-white text-gray-800 overflow-auto">
+
   <div class="w-full min-h-full flex flex-col">
 
    <!-- Navigation -->
+
    <nav class="bg-white shadow-sm sticky top-0 z-50 border-b border-gray-100">
+
     <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-     <!-- Logo -->
-     <div class="flex items-center gap-2 cursor-pointer" onclick="navigateTo('home')">
+
+     <div class="flex items-center gap-2">
+
       <div class="w-10 h-10 rounded-full hero-gradient flex items-center justify-center">
-       <span class="text-white font-bold text-lg">S</span>
-      </div>
-      <span class="text-xl font-bold text-brand heading-font">Sure Hands</span>
-     </div>
 
-     <!-- Desktop Nav -->
+       <span class="text-white font-bold text-lg"><img src="image/Logo.png"></span>
+
+      </div><span class="text-xl font-bold text-brand heading-font">Sure Hands</span>
+
+     </div><!-- Desktop Nav -->
+
      <div class="hidden md:flex items-center gap-8">
-      <span onclick="navigateTo('home')" class="nav-link active-link text-sm font-medium text-gray-700" data-page="home">Home</span>
-      <span onclick="navigateTo('about')" class="nav-link text-sm font-medium text-gray-700" data-page="about">About</span>
-      <span onclick="navigateTo('services')" class="nav-link text-sm font-medium text-gray-700" data-page="services">Services</span>
-      <span onclick="navigateTo('contact')" class="nav-link text-sm font-medium text-gray-700" data-page="contact">Contact</span>
-     </div>
 
-     <!-- Mobile Menu Button -->
-     <button id="mobileMenuBtn" class="md:hidden text-brand p-2" onclick="toggleMobileMenu()">
-      <i data-lucide="menu" class="w-6 h-6"></i>
-     </button>
+      <a href="#page-home" onclick="navigateTo('home')" class="nav-link active-link text-sm font-medium text-gray-700" data-page="home">Home</a> <a href="#page-about"  onclick="navigateTo('about')" class="nav-link text-sm font-medium text-gray-700" data-page="about">About</a> <a href="#page-services" onclick="navigateTo('services')"  class="nav-link text-sm font-medium text-gray-700" data-page="services">Services</a> <a href="#page-contact" onclick="navigateTo('contact')" class="nav-link text-sm font-medium text-gray-700" data-page="contact">Contact</a>
+
+     </div><!-- Mobile Menu Button --> <button id="mobileMenuBtn" class="md:hidden text-brand"> <i data-lucide="menu" class="w-6 h-6"></i> </button>
+
+    </div><!-- Mobile Nav -->
+
+    <div id="mobileMenu" class="hidden md:hidden px-6 pb-4 space-y-3">
+
+     <a href="#page-home"  onclick="navigateTo('home')" class="block text-sm font-medium text-gray-700 py-2" data-page="home">Home</a> <a href="#page-about"  onclick="navigateTo('about')" class="block text-sm font-medium text-gray-700 py-2" data-page="about">About</a> <a href="#page-services" onclick="navigateTo('services')"  class="block text-sm font-medium text-gray-700 py-2" data-page="services">Services</a> <a href="#page-contact" onclick="navigateTo('contact')" class="block text-sm font-medium text-gray-700 py-2" data-page="contact">Contact</a>
+
     </div>
 
-    <!-- Mobile Nav -->
-    <div id="mobileMenu" class="hidden md:hidden px-6 pb-4 space-y-1 border-t border-gray-100">
-     <span onclick="navigateTo('home')" class="block text-sm font-medium text-gray-700 py-3 cursor-pointer hover:text-brand transition-colors" data-page="home">Home</span>
-     <span onclick="navigateTo('about')" class="block text-sm font-medium text-gray-700 py-3 cursor-pointer hover:text-brand transition-colors" data-page="about">About</span>
-     <span onclick="navigateTo('services')" class="block text-sm font-medium text-gray-700 py-3 cursor-pointer hover:text-brand transition-colors" data-page="services">Services</span>
-     <span onclick="navigateTo('contact')" class="block text-sm font-medium text-gray-700 py-3 cursor-pointer hover:text-brand transition-colors" data-page="contact">Contact</span>
-    </div>
-   </nav>
+   </nav><!-- HOME PAGE -->
 
-   <!-- HOME PAGE -->
    <div id="page-home" class="page active fade-in flex-1">
+
     <!-- Hero -->
+
     <section class="hero-gradient py-32 px-6 text-center text-white relative overflow-hidden">
-     <div class="absolute inset-0" style="background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(255,255,255,0.1) 0%, transparent 50%);"></div>
+
+     <div class="absolute inset-0" style="background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(255,255,255,0.1) 0%, transparent 50%), radial-gradient(ellipse 100% 60% at 50% 100%, rgba(255,255,255,0.05) 0%, transparent 50%);"></div>
+
      <div class="absolute blur-blob blob-1"></div>
+
      <div class="absolute blur-blob blob-2"></div>
+
      <div class="absolute blur-blob blob-3"></div>
+
      <div class="max-w-3xl mx-auto relative z-10">
-      <h1 id="heroTitle" class="heading-font text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight" style="animation: slideInUp 0.9s cubic-bezier(0.34, 1.56, 0.64, 1); letter-spacing: -1px;">Services We Provide.<br>Expectations met.</h1>
+
+      <h1 id="heroTitle" class="heading-font text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight" style="animation: slideInUp 0.9s cubic-bezier(0.34, 1.56, 0.64, 1); letter-spacing: -1px;">Services We Provide.<br>
+
+      Expectations met.</h1>
+
       <p id="heroSubtitle" class="text-base md:text-2xl opacity-90 mb-12 font-light tracking-wide" style="animation: slideInUp 0.9s ease-out 0.2s both;">Professionalism at its best and we deliver within minutes.</p>
-      <div class="flex flex-col sm:flex-row gap-4 justify-center" style="animation: slideInUp 0.9s ease-out 0.4s both;">
-       <button onclick="navigateTo('services')" class="bg-white text-brand px-10 py-4 rounded-full font-bold text-lg hover:shadow-2xl transition-all transform hover:scale-105 active:scale-95">Get Started</button>
-       <button onclick="navigateTo('contact')" class="border-2 border-white text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-white hover:text-brand transition-all transform hover:scale-105 active:scale-95">Contact Us</button>
-      </div>
-     </div>
-    </section>
 
-    <!-- Services Preview -->
-    <section class="py-20 px-6 max-w-6xl mx-auto">
-     <h2 class="heading-font text-3xl md:text-5xl font-bold text-center text-brand mb-6 leading-tight" id="servicesHeadline">Our Premium Solutions</h2>
-     <p class="text-center text-gray-500 mb-16 max-w-2xl mx-auto text-lg font-light">Five essential services designed to simplify your life and enhance your living space.</p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center" style="animation: slideInUp 0.9s ease-out 0.4s both; animation-fill-mode: both;"><button onclick="navigateTo('services')" class="bg-white text-brand px-10 py-4 rounded-full font-bold text-lg hover:shadow-2xl transition-all transform hover:scale-105 active:scale-95">Get Started</button> <button onclick="navigateTo('contact')" class="border-2 border-white text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-white hover:text-brand transition-all transform hover:scale-105 active:scale-95">Contact Us</button>
+
+      </div>
+
+     </div>
+
+    </section><!-- Services Preview -->
+
+    <section class="py-20 px-6 max-w-6xl mx-auto" id="preview-services">
+
+     <h2 class="heading-font text-3xl md:text-5xl font-bold text-center text-brand mb-6 leading-tight" id="servicesHeadline" style="animation: fadeIn 0.8s ease-out;">Our Premium Solutions</h2>
+
+     <p class="text-center text-gray-500 mb-16 max-w-2xl mx-auto text-lg font-light" style="animation: fadeIn 0.8s ease-out 0.2s both;">Five essential services designed to simplify your life and enhance your living space.</p>
+
      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-      <div class="service-card p-8 rounded-2xl border-2 border-gray-200 bg-white text-center">
-       <div class="w-16 h-16 mx-auto mb-4 rounded-xl bg-gradient-to-br from-brand-light/40 to-brand/20 flex items-center justify-center"><i data-lucide="sparkles" class="w-8 h-8 text-brand floating-icon"></i></div>
+
+      <div class="service-card p-8 rounded-2xl border-2 border-gray-200 bg-white text-center hover:bg-gradient-to-br from-white to-brand-light/5" style="animation: slideInUp 0.8s ease-out;">
+
+       <div class="w-16 h-16 mx-auto mb-4 rounded-xl bg-gradient-to-br from-brand-light/40 to-brand/20 flex items-center justify-center"><i data-lucide="sparkles" class="w-8 h-8 text-brand floating-icon"></i>
+
+       </div>
+
        <h3 class="font-bold text-lg mb-2">Cleaning Services</h3>
+
        <p class="text-gray-500 text-sm leading-relaxed">Thorough home &amp; office cleaning with eco-friendly products.</p>
+
       </div>
-      <div class="service-card p-8 rounded-2xl border-2 border-gray-200 bg-white text-center">
-       <div class="w-16 h-16 mx-auto mb-4 rounded-xl bg-gradient-to-br from-brand-light/40 to-brand/20 flex items-center justify-center"><i data-lucide="shirt" class="w-8 h-8 text-brand floating-icon"></i></div>
+
+      <div class="service-card p-8 rounded-2xl border-2 border-gray-200 bg-white text-center hover:bg-gradient-to-br from-white to-brand-light/5" style="animation: slideInUp 0.8s ease-out 0.1s both;">
+
+       <div class="w-16 h-16 mx-auto mb-4 rounded-xl bg-gradient-to-br from-brand-light/40 to-brand/20 flex items-center justify-center"><i data-lucide="shirt" class="w-8 h-8 text-brand floating-icon"></i>
+
+       </div>
+
        <h3 class="font-bold text-lg mb-2">Laundry Services</h3>
+
        <p class="text-gray-500 text-sm leading-relaxed">Professional wash, dry &amp; fold for all your garments.</p>
+
       </div>
-      <div class="service-card p-8 rounded-2xl border-2 border-gray-200 bg-white text-center">
-       <div class="w-16 h-16 mx-auto mb-4 rounded-xl bg-gradient-to-br from-brand-light/40 to-brand/20 flex items-center justify-center"><i data-lucide="wrench" class="w-8 h-8 text-brand floating-icon"></i></div>
+
+      <div class="service-card p-8 rounded-2xl border-2 border-gray-200 bg-white text-center hover:bg-gradient-to-br from-white to-brand-light/5" style="animation: slideInUp 0.8s ease-out 0.2s both;">
+
+       <div class="w-16 h-16 mx-auto mb-4 rounded-xl bg-gradient-to-br from-brand-light/40 to-brand/20 flex items-center justify-center"><i data-lucide="wrench" class="w-8 h-8 text-brand floating-icon"></i>
+
+       </div>
+
        <h3 class="font-bold text-lg mb-2">Plumbing Services</h3>
+
        <p class="text-gray-500 text-sm leading-relaxed">Expert repairs and installations for all plumbing needs.</p>
+
       </div>
-      <div class="service-card p-8 rounded-2xl border-2 border-gray-200 bg-white text-center">
-       <div class="w-16 h-16 mx-auto mb-4 rounded-xl bg-gradient-to-br from-brand-light/40 to-brand/20 flex items-center justify-center"><i data-lucide="trees" class="w-8 h-8 text-brand floating-icon"></i></div>
+
+      <div class="service-card p-8 rounded-2xl border-2 border-gray-200 bg-white text-center hover:bg-gradient-to-br from-white to-brand-light/5" style="animation: slideInUp 0.8s ease-out 0.3s both;">
+
+       <div class="w-16 h-16 mx-auto mb-4 rounded-xl bg-gradient-to-br from-brand-light/40 to-brand/20 flex items-center justify-center"><i data-lucide="trees" class="w-8 h-8 text-brand floating-icon"></i>
+
+       </div>
+
        <h3 class="font-bold text-lg mb-2">Compound Maintenance</h3>
+
        <p class="text-gray-500 text-sm leading-relaxed">Landscaping &amp; grounds maintenance to keep spaces pristine.</p>
+
       </div>
-      <div class="service-card p-8 rounded-2xl border-2 border-gray-200 bg-white text-center md:col-span-2 lg:col-span-1">
-       <div class="w-16 h-16 mx-auto mb-4 rounded-xl bg-gradient-to-br from-brand-light/40 to-brand/20 flex items-center justify-center"><i data-lucide="settings" class="w-8 h-8 text-brand floating-icon"></i></div>
+
+      <div class="service-card p-8 rounded-2xl border-2 border-gray-200 bg-white text-center hover:bg-gradient-to-br from-white to-brand-light/5 md:col-span-2 lg:col-span-1" style="animation: slideInUp 0.8s ease-out 0.4s both;">
+
+       <div class="w-16 h-16 mx-auto mb-4 rounded-xl bg-gradient-to-br from-brand-light/40 to-brand/20 flex items-center justify-center"><i data-lucide="settings" class="w-8 h-8 text-brand floating-icon"></i>
+
+       </div>
+
        <h3 class="font-bold text-lg mb-2">Appliance Repair</h3>
+
        <p class="text-gray-500 text-sm leading-relaxed">Fix &amp; maintain your home appliances professionally.</p>
+
       </div>
+
      </div>
+
      <div class="text-center mt-10">
+
       <button onclick="navigateTo('services')" class="text-brand font-semibold hover:underline">View All Services →</button>
-     </div>
-    </section>
 
-    <!-- Why Choose Us -->
-    <section class="pink-accent py-20 px-6">
+     </div>
+
+    </section><!-- Why Choose Us -->
+
+    <section class="pink-accent py-20 px-6" id="why">
+
      <div class="max-w-6xl mx-auto">
+
       <h2 class="heading-font text-3xl font-bold text-center text-brand mb-12">Why Choose Sure Hands?</h2>
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-       <div><div class="text-3xl font-bold text-brand mb-2">100+</div><p class="text-gray-600 text-sm">Happy Clients</p></div>
-       <div><div class="text-3xl font-bold text-brand mb-2">2+</div><p class="text-gray-600 text-sm">Months Experience</p></div>
-       <div><div class="text-3xl font-bold text-brand mb-2">24/7</div><p class="text-gray-600 text-sm">Available Support</p></div>
-       <div><div class="text-3xl font-bold text-brand mb-2">100%</div><p class="text-gray-600 text-sm">Satisfaction</p></div>
-      </div>
-     </div>
-    </section>
-   </div>
 
-   <!-- ABOUT PAGE -->
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
+
+       <div>
+
+        <div class="text-3xl font-bold text-brand mb-2">
+
+         100+
+
+        </div>
+
+        <p class="text-gray-600 text-sm">Happy Clients</p>
+
+       </div>
+
+       <div>
+
+        <div class="text-3xl font-bold text-brand mb-2">
+
+         2+
+
+        </div>
+
+        <p class="text-gray-600 text-sm">Months Experience</p>
+
+       </div>
+
+       <div>
+
+        <div class="text-3xl font-bold text-brand mb-2">
+
+         24/7
+
+        </div>
+
+        <p class="text-gray-600 text-sm">Available Support</p>
+
+       </div>
+
+       <div>
+
+        <div class="text-3xl font-bold text-brand mb-2">
+
+         100%
+
+        </div>
+
+        <p class="text-gray-600 text-sm">Satisfaction</p>
+
+       </div>
+
+      </div>
+
+     </div>
+
+    </section>
+
+   </div><!-- ABOUT PAGE -->
+
    <div id="page-about" class="page fade-in flex-1">
+
     <section class="py-20 px-6 max-w-4xl mx-auto">
+
      <h1 class="heading-font text-4xl font-bold text-brand mb-8 text-center">About Sure Hands</h1>
+
      <div class="space-y-6 text-gray-600 leading-relaxed">
+
       <p id="aboutText" class="text-lg">Sure Hands is a premier service providing company dedicated to making your life easier. We specialize in delivering high-quality home maintenance, cleaning, and repair services that you can rely on every single time.</p>
+
       <p>Founded with the vision of providing professional, affordable, and dependable services, we have grown to become one of the most trusted service providers in Uganda. Our team of skilled professionals is carefully vetted and trained to deliver excellence in every task.</p>
+
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
+
        <div class="p-8 rounded-2xl border border-gray-100">
+
         <h3 class="heading-font text-xl font-bold text-brand mb-3">Our Mission</h3>
+
         <p class="text-gray-500">To provide reliable, professional, and affordable home services that exceed our clients' expectations while maintaining the highest standards of quality and integrity.</p>
+
        </div>
+
        <div class="p-8 rounded-2xl border border-gray-100">
+
         <h3 class="heading-font text-xl font-bold text-brand mb-3">Our Vision</h3>
+
         <p class="text-gray-500">To be the leading home services provider in East Africa, known for our commitment to quality, reliability, and customer satisfaction.</p>
+
        </div>
+
       </div>
+
       <div class="mt-12 p-8 rounded-2xl hero-gradient text-white text-center">
+
        <h3 class="heading-font text-2xl font-bold mb-3">Our Core Values</h3>
+
        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
-        <div><i data-lucide="shield-check" class="w-8 h-8 mx-auto mb-2 opacity-90"></i><p class="text-sm">Reliability</p></div>
-        <div><i data-lucide="star" class="w-8 h-8 mx-auto mb-2 opacity-90"></i><p class="text-sm">Excellence</p></div>
-        <div><i data-lucide="heart" class="w-8 h-8 mx-auto mb-2 opacity-90"></i><p class="text-sm">Integrity</p></div>
-        <div><i data-lucide="users" class="w-8 h-8 mx-auto mb-2 opacity-90"></i><p class="text-sm">Teamwork</p></div>
+
+        <div><i data-lucide="shield-check" class="w-8 h-8 mx-auto mb-2 opacity-90"></i>
+
+         <p class="text-sm">Reliability</p>
+
+        </div>
+
+        <div><i data-lucide="star" class="w-8 h-8 mx-auto mb-2 opacity-90"></i>
+
+         <p class="text-sm">Excellence</p>
+
+        </div>
+
+        <div><i data-lucide="heart" class="w-8 h-8 mx-auto mb-2 opacity-90"></i>
+
+         <p class="text-sm">Integrity</p>
+
+        </div>
+
+        <div><i data-lucide="users" class="w-8 h-8 mx-auto mb-2 opacity-90"></i>
+
+         <p class="text-sm">Teamwork</p>
+
+        </div>
+
        </div>
+
       </div>
+
      </div>
+
     </section>
-   </div>
 
-   <!-- SERVICES PAGE -->
+   </div><!-- SERVICES PAGE -->
+
    <div id="page-services" class="page fade-in flex-1">
+
     <section class="py-20 px-6 max-w-4xl mx-auto">
+
      <h1 class="heading-font text-4xl font-bold text-brand mb-4 text-center">Our Services</h1>
-     <p class="text-center text-gray-500 mb-12">Select a service below, provide your details, and we'll get back to you via WhatsApp.</p>
 
-     <!-- Service Selection -->
-     <div id="serviceSelection" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-      <button onclick="selectService('Cleaning Services')" class="svc-btn service-card p-6 rounded-2xl border-2 border-gray-200 text-left hover:border-brand transition-all">
-       <div class="flex items-center gap-4">
-        <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-brand-light/40 to-brand/20 flex items-center justify-center shrink-0"><i data-lucide="sparkles" class="w-6 h-6 text-brand"></i></div>
-        <div><h3 class="font-bold text-base">Cleaning Services</h3><p class="text-xs text-gray-400">Home &amp; office cleaning</p></div>
-       </div>
-      </button>
-      <button onclick="selectService('Laundry Services')" class="svc-btn service-card p-6 rounded-2xl border-2 border-gray-200 text-left hover:border-brand transition-all">
-       <div class="flex items-center gap-4">
-        <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-brand-light/40 to-brand/20 flex items-center justify-center shrink-0"><i data-lucide="shirt" class="w-6 h-6 text-brand"></i></div>
-        <div><h3 class="font-bold text-base">Laundry Services</h3><p class="text-xs text-gray-400">Wash, dry &amp; fold</p></div>
-       </div>
-      </button>
-      <button onclick="selectService('Plumbing Services')" class="svc-btn service-card p-6 rounded-2xl border-2 border-gray-200 text-left hover:border-brand transition-all">
-       <div class="flex items-center gap-4">
-        <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-brand-light/40 to-brand/20 flex items-center justify-center shrink-0"><i data-lucide="wrench" class="w-6 h-6 text-brand"></i></div>
-        <div><h3 class="font-bold text-base">Plumbing Services</h3><p class="text-xs text-gray-400">Repairs &amp; installations</p></div>
-       </div>
-      </button>
-      <button onclick="selectService('Compound Maintenance')" class="svc-btn service-card p-6 rounded-2xl border-2 border-gray-200 text-left hover:border-brand transition-all">
-       <div class="flex items-center gap-4">
-        <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-brand-light/40 to-brand/20 flex items-center justify-center shrink-0"><i data-lucide="trees" class="w-6 h-6 text-brand"></i></div>
-        <div><h3 class="font-bold text-base">Compound Maintenance</h3><p class="text-xs text-gray-400">Landscaping &amp; upkeep</p></div>
-       </div>
-      </button>
-      <button onclick="selectService('Home Appliance Repair')" class="svc-btn service-card p-6 rounded-2xl border-2 border-gray-200 text-left hover:border-brand transition-all md:col-span-2">
-       <div class="flex items-center gap-4">
-        <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-brand-light/40 to-brand/20 flex items-center justify-center shrink-0"><i data-lucide="settings" class="w-6 h-6 text-brand"></i></div>
-        <div><h3 class="font-bold text-base">Home Appliance Repair</h3><p class="text-xs text-gray-400">Fix &amp; maintain your appliances</p></div>
-       </div>
-      </button>
-     </div>
+     <p class="text-center text-gray-500 mb-12">Select a service below, provide your details, and we'll get back to you via WhatsApp.</p><!-- Service Selection -->
 
-     <!-- Service Form -->
-     <div id="serviceForm" class="hidden">
-      <div class="bg-white rounded-2xl border-2 border-gray-200 p-8 shadow-lg">
-       <div class="flex items-center justify-between mb-8">
-        <div>
-         <p class="text-sm text-gray-400 font-semibold">SELECTED SERVICE</p>
-         <h3 class="heading-font text-3xl font-bold text-brand" id="selectedServiceTitle">Service</h3>
+     <div id="serviceSelection" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8"><button onclick="selectService('Cleaning Services')" class="svc-btn service-card p-6 rounded-2xl border-2 border-gray-200 text-left hover:border-brand transition-all transform hover:scale-102 active:scale-95" style="animation: slideInUp 0.6s ease-out;">
+
+       <div class="flex items-center gap-4">
+
+        <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-brand-light/40 to-brand/20 flex items-center justify-center shrink-0"><i data-lucide="sparkles" class="w-6 h-6 text-brand"></i>
+
         </div>
-        <button onclick="resetService()" class="text-sm text-gray-400 hover:text-brand font-semibold transition-all flex items-center gap-2">
-         <i data-lucide="chevron-left" class="w-4 h-4"></i> Change
-        </button>
-       </div>
-       <div class="space-y-6">
+
         <div>
-         <label class="block text-sm font-bold text-gray-700 mb-2">Your Full Name *</label>
-         <input type="text" id="clientName" required class="w-full px-4 py-3 rounded-xl input-field" placeholder="Enter your name">
+
+         <h3 class="font-bold text-base">Cleaning Services</h3>
+
+         <p class="text-xs text-gray-400">Home &amp; office cleaning</p>
+
         </div>
-       
+
+       </div></button> <button onclick="selectService('Laundry Services')" class="svc-btn service-card p-6 rounded-2xl border-2 border-gray-200 text-left hover:border-brand transition-all transform hover:scale-102 active:scale-95" style="animation: slideInUp 0.6s ease-out 0.1s both;">
+
+       <div class="flex items-center gap-4">
+
+        <div class=
